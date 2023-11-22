@@ -8,6 +8,7 @@ import Stack from "@mui/material/Stack";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { Users } from "../../redux/action";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -15,21 +16,26 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [openLoading, setOpenLoading] = React.useState(false);
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+    phone: "",
+  });
 
-  const allUser = useSelector((state) => state.allUser);
   const [open, setOpen] = React.useState(false);
 
-  const handleCloseLoading = () => {
-    setOpenLoading(false);
-  };
-  const handleOpenLoading = () => {
-    setOpenLoading(true);
-  };
+
 
   useEffect(() => {
     dispatch(Users());
+
+    setTimeout(async () => {
+      setLoading(false);
+    }, 1500);
   }, [dispatch]);
+
   const handleClick = () => {
     setOpen(true);
   };
@@ -42,12 +48,7 @@ const Register = () => {
     setOpen(false);
   };
 
-  const [data, setData] = useState({
-    email: "",
-    password: "",
-    confirmPassword: "",
-    phone: "",
-  });
+ 
 
   const handleSubmit = (e) => {
     if (data.password === data.confirmPassword) {
@@ -87,6 +88,13 @@ const Register = () => {
 
   return (
     <div>
+            {loading ? (
+        <div className="loading">
+          <CircularProgress />
+        </div>
+      ) : (
+        <div>
+
       <div className="Logo-login">
         <img src={require("../../image/Logo.png")} alt="Not found" />
       </div>
@@ -221,6 +229,10 @@ const Register = () => {
           </div>
         </div>
       </Form>
+      </div>
+
+      )}
+
     </div>
   );
 };
