@@ -1,0 +1,80 @@
+import React, { useState, useEffect } from "react";
+import { Button } from "antd";
+import "../../styles/App.css";
+import CircularProgress from "@mui/material/CircularProgress";
+import {Link} from 'react-router-dom'
+
+const Inicial = () => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(async () => {
+      setLoading(false);
+    }, 1500);
+  }, []);
+  return (
+    <>
+      {loading ? (
+        <div className="loading">
+          <CircularProgress />
+        </div>
+      ) : (
+        <div>
+          <div className="Logo-login">
+            <img src={require("../../image/Logo.png")} alt="Not found" />
+          </div>
+          <div className="Inicial-container">
+            <div className="login-box">
+            <div style={{ textAlign: 'center' }}>
+                <label id="text-initial">Ya tienes una cuenta con nosotros? Haz click aquí!</label>
+               <Link to= '/login'>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  style={{
+                      borderColor: "black",
+                      border: "none",
+                      backgroundColor: "#0080577B",
+                      width: "100%",
+                      borderRadius: 0,
+                      outline: "none",
+                      fontSize: '16px'
+                    }}
+                    >
+                  INICIAR SESIÓN
+                </Button>
+                    </Link>
+              </div>
+
+            
+
+              <div style={{ textAlign: 'center' }}>
+              <label id="text-initial">No te has registrado? Ingresa con tus datos aquí!</label>
+              <Link to= '/register'>
+
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  style={{
+                    borderColor: "black",
+                    border: "none",
+                    backgroundColor: "#0080577B",
+                    width: "100%",
+                    borderRadius: 0,
+                    outline: "none",
+                    fontSize: '16px'
+                  }}
+                >
+                  REGISTRATE
+                </Button>
+                </Link>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
+export default Inicial;
