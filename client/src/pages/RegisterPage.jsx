@@ -1,11 +1,28 @@
+import React, { useState, useEffect } from "react";
 import Register from "../components/Register/Register";
+import CircularProgress from "@mui/material/CircularProgress";
+import "../styles/App.css";
 
 export default function RegisterPage() {
-    return (
-        <div>
-            <div>
-                <Register/>
-            </div>
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(async () => {
+      setLoading(false);
+    }, 1500);
+  }, []);
+
+  return (
+    <div>
+      {loading ? (
+        <div className="loading">
+          <CircularProgress />
         </div>
-    )
+      ) : (
+        <div>
+          <Register />
+        </div>
+      )}
+    </div>
+  );
 }

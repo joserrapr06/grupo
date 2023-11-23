@@ -16,7 +16,6 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -31,9 +30,7 @@ const Register = () => {
   useEffect(() => {
     dispatch(Users());
 
-    setTimeout(async () => {
-      setLoading(false);
-    }, 1500);
+
   }, [dispatch]);
 
   const handleClick = () => {
@@ -88,11 +85,7 @@ const Register = () => {
 
   return (
     <div>
-            {loading ? (
-        <div className="loading">
-          <CircularProgress />
-        </div>
-      ) : (
+    
         <div>
 
       <div className="Logo-login">
@@ -231,7 +224,6 @@ const Register = () => {
       </Form>
       </div>
 
-      )}
 
     </div>
   );

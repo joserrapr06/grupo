@@ -11,7 +11,7 @@ module.exports = {
         name, email, phone
       })
     console.log("Lead creado correctamente");
-      res.status(200).send(lead)
+      res.status(200).send({message: "Lead creado correctamente"})
    
     } catch (error) {
       console.error(error);

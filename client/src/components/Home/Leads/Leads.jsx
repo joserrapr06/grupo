@@ -1,27 +1,30 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import { alpha } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import Checkbox from '@mui/material/Checkbox';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
-import DeleteIcon from '@mui/icons-material/Delete';
-import FilterListIcon from '@mui/icons-material/FilterList';
-import { visuallyHidden } from '@mui/utils';
-import  '../../../styles/App.css'
+import * as React from "react";
+import PropTypes from "prop-types";
+import { alpha } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
+import TableSortLabel from "@mui/material/TableSortLabel";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Paper from "@mui/material/Paper";
+import Checkbox from "@mui/material/Checkbox";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
+import DeleteIcon from "@mui/icons-material/Delete";
+import FilterListIcon from "@mui/icons-material/FilterList";
+import { visuallyHidden } from "@mui/utils";
+import "../../../styles/App.css";
+import { useDispatch, useSelector } from "react-redux";
+import { AllLead } from "../../../redux/action";
+
 function createData(id, name, calories, fat, carbs, protein) {
   return {
     id,
@@ -34,19 +37,19 @@ function createData(id, name, calories, fat, carbs, protein) {
 }
 
 const rows = [
-  createData(1, 'Cupcake', 305, 3.7, 67, 4.3),
-  createData(2, 'Donut', 452, 25.0, 51, 4.9),
-  createData(3, 'Eclair', 262, 16.0, 24, 6.0),
-  createData(4, 'Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData(5, 'Gingerbread', 356, 16.0, 49, 3.9),
-  createData(6, 'Honeycomb', 408, 3.2, 87, 6.5),
-  createData(7, 'Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData(8, 'Jelly Bean', 375, 0.0, 94, 0.0),
-  createData(9, 'KitKat', 518, 26.0, 65, 7.0),
-  createData(10, 'Lollipop', 392, 0.2, 98, 0.0),
-  createData(11, 'Marshmallow', 318, 0, 81, 2.0),
-  createData(12, 'Nougat', 360, 19.0, 9, 37.0),
-  createData(13, 'Oreo', 437, 18.0, 63, 4.0),
+  createData(1, "Cupcake", 305, 3.7, 67, 4.3),
+  createData(2, "Donut", 452, 25.0, 51, 4.9),
+  createData(3, "Eclair", 262, 16.0, 24, 6.0),
+  createData(4, "Frozen yoghurt", 159, 6.0, 24, 4.0),
+  createData(5, "Gingerbread", 356, 16.0, 49, 3.9),
+  createData(6, "Honeycomb", 408, 3.2, 87, 6.5),
+  createData(7, "Ice cream sandwich", 237, 9.0, 37, 4.3),
+  createData(8, "Jelly Bean", 375, 0.0, 94, 0.0),
+  createData(9, "KitKat", 518, 26.0, 65, 7.0),
+  createData(10, "Lollipop", 392, 0.2, 98, 0.0),
+  createData(11, "Marshmallow", 318, 0, 81, 2.0),
+  createData(12, "Nougat", 360, 19.0, 9, 37.0),
+  createData(13, "Oreo", 437, 18.0, 63, 4.0),
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -60,7 +63,7 @@ function descendingComparator(a, b, orderBy) {
 }
 
 function getComparator(order, orderBy) {
-  return order === 'desc'
+  return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
@@ -83,69 +86,46 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-   
-    label: 'Dessert (100g serving)',
+    label: "Dessert (100g serving)",
   },
   {
-  
-    label: 'Calories',
+    label: "Calories",
   },
   {
-  
-    label: 'Fat (g)',
+    label: "Fat (g)",
   },
   {
-   
-    label: 'Carbs (g)',
+    label: "Carbs (g)",
   },
   {
-    
-    label: 'Protein (g)',
+    label: "Protein (g)",
   },
 ];
 
 function EnhancedTableHead(props) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
-    props;
+  const {
+    onSelectAllClick,
+    order,
+    orderBy,
+    numSelected,
+    rowCount,
+    onRequestSort,
+  } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
 
   return (
-    <TableHead sx={{background: "#000", }}>
+    <TableHead sx={{ background: "#000" }}>
       <TableRow>
-        <TableCell padding="checkbox" >
-    
+        <TableCell padding="checkbox"></TableCell>
+        <TableCell sx={{ color: "white", fontSize: "20px" }}>LOTES</TableCell>
+        <TableCell sx={{ color: "white", fontSize: "20px" }}>NOMBRE</TableCell>
+        <TableCell sx={{ color: "white", fontSize: "20px" }}>ESTATUS</TableCell>
+        <TableCell sx={{ color: "white", fontSize: "20px" }}>
+          ACCIONES
         </TableCell>
-          <TableCell
-       sx={{ color: "white", fontSize:"20px"}}
-          >
-            LOTES
-          </TableCell>
-           <TableCell
-         sx={{ color: "white", fontSize:"20px"}}
-         >
-            NOMBRE
-     
-         </TableCell>
-          <TableCell
-    sx={{ color: "white", fontSize:"20px"}}
-        >
-          
-      ESTATUS
-        </TableCell>
-         <TableCell
-     sx={{ color: "white", fontSize:"20px"}}
-       >
-      
-     ACCIONES
-       </TableCell>
-       <TableCell
-     sx={{ color: "white", fontSize:"20px"}}
-     >
-    
-   -
-     </TableCell>
+        <TableCell sx={{ color: "white", fontSize: "20px" }}>-</TableCell>
       </TableRow>
     </TableHead>
   );
@@ -155,7 +135,7 @@ EnhancedTableHead.propTypes = {
   numSelected: PropTypes.number.isRequired,
   onRequestSort: PropTypes.func.isRequired,
   onSelectAllClick: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
+  order: PropTypes.oneOf(["asc", "desc"]).isRequired,
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
 };
@@ -170,18 +150,18 @@ function EnhancedTableToolbar(props) {
         pr: { xs: 1, sm: 1 },
         ...(numSelected > 0 && {
           bgcolor: (theme) =>
-            alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
+            alpha(
+              theme.palette.primary.main,
+              theme.palette.action.activatedOpacity
+            ),
         }),
       }}
     >
-      
-
-  
-        <Tooltip title="Filter list">
-          <IconButton>
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
+      <Tooltip title="Filter list">
+        <IconButton>
+          <FilterListIcon />
+        </IconButton>
+      </Tooltip>
     </Toolbar>
   );
 }
@@ -191,16 +171,22 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function EnhancedTable() {
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('calories');
+  const dispatch = useDispatch();
+  const allLead = useSelector((state) => state.allLead);
+  const [order, setOrder] = React.useState("asc");
+  const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
+  React.useEffect(() => {
+    dispatch(AllLead());
+  }, [dispatch]);
+
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
@@ -226,7 +212,7 @@ export default function EnhancedTable() {
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
+        selected.slice(selectedIndex + 1)
       );
     }
     setSelected(newSelected);
@@ -241,8 +227,6 @@ export default function EnhancedTable() {
     setPage(0);
   };
 
- 
-
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
@@ -253,17 +237,17 @@ export default function EnhancedTable() {
     () =>
       stableSort(rows, getComparator(order, orderBy)).slice(
         page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage,
+        page * rowsPerPage + rowsPerPage
       ),
-    [order, orderBy, page, rowsPerPage],
+    [order, orderBy, page, rowsPerPage]
   );
 
   return (
-    <Box sx={{ width: '100%', border: "2px solid", background:'transparent' }}>
-      <Paper sx={{ width: '100%', mb: 2, background:'transparent' }}>
+    <Box sx={{ width: "100%", border: "2px solid", background: "transparent" }}>
+      <Paper sx={{ width: "100%", mb: 2, background: "transparent" }}>
         {/* <EnhancedTableToolbar  /> */}
-      <TablePagination
-          rowsPerPageOptions={[2,5, 8 ]}
+        <TablePagination
+          rowsPerPageOptions={[2, 5, 8]}
           component="div"
           count={rows.length}
           rowsPerPage={rowsPerPage}
@@ -275,7 +259,7 @@ export default function EnhancedTable() {
           <Table
             sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
-            size={dense ? 'small' : 'medium'}
+            size={dense ? "small" : "medium"}
           >
             <EnhancedTableHead
               numSelected={selected.length}
@@ -286,7 +270,7 @@ export default function EnhancedTable() {
               rowCount={rows.length}
             />
             <TableBody>
-              {visibleRows.map((row, index) => {
+              {allLead.map((row, index) => {
                 const labelId = `enhanced-table-checkbox-${index}`;
 
                 return (
@@ -296,9 +280,7 @@ export default function EnhancedTable() {
                     tabIndex={-1}
                     key={row.id}
                   >
-                    <TableCell>
-                     
-                    </TableCell>
+                    <TableCell></TableCell>
                     <TableCell
                       component="tD"
                       id={labelId}
@@ -307,11 +289,14 @@ export default function EnhancedTable() {
                     >
                       HVZ-01
                     </TableCell>
-                    <TableCell >José Julio Lopez Mateo</TableCell>
-                    <TableCell >Enganche</TableCell>
-                    <TableCell >iconos</TableCell>
-                    <TableCell >-</TableCell>
-
+                     
+                        <TableCell >
+                          {row.name}
+                        </TableCell>
+                  
+                    <TableCell>Enganche</TableCell>
+                    <TableCell>iconos</TableCell>
+                    <TableCell>-</TableCell>
                   </TableRow>
                 );
               })}
@@ -327,9 +312,7 @@ export default function EnhancedTable() {
             </TableBody>
           </Table>
         </TableContainer>
-        
       </Paper>
-   
     </Box>
   );
 }

@@ -16,7 +16,6 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [open, setOpen] = React.useState(false);
@@ -53,18 +52,10 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
-  useEffect(() => {
-    setTimeout(async () => {
-      setLoading(false);
-    }, 1500);
-  }, []);
+
   return (
     <>
-      {loading ? (
-        <div className="loading">
-          <CircularProgress />
-        </div>
-      ) : (
+     
         <div>
           <div className="Logo-login">
             <img src={require("../../image/Logo.png")} alt="Not found" />
@@ -162,7 +153,6 @@ const Login = () => {
             </div>
           </Form>
         </div>
-      )}
     </>
   );
 };

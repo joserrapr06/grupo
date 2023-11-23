@@ -6,7 +6,11 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-
+import { addLead } from "../../../redux/action";
+import { useDispatch } from "react-redux";
+import MuiAlert from "@mui/material/Alert";
+import Stack from "@mui/material/Stack";
+import Snackbar from "@mui/material/Snackbar";
 const style = {
   position: "absolute",
   top: "50%",
@@ -18,11 +22,57 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-export default function ButtonAddLeads() {
 
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+export default function ButtonAddLeads() {
+  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
+  const [openError, setOpenError] = React.useState(false);
+  const [openSucces, setOpenSuccess] = React.useState(false);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const handleCloseError = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenError(false);
+  };
+
+  const handleCloseSuccess = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenSuccess(false);
+  };
+
+  const [addlead, setAddlead] = React.useState({
+    name: "",
+    email: "",
+    phone: "",
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!addlead.name || !addlead.email || !addlead.phone) {
+      setOpenError(true);
+    } else {
+      dispatch(addLead(addlead));
+      setAddlead({
+        name: "",
+        email: "",
+        phone: "",
+      });
+      setOpenSuccess(true);
+    }
+  };
+
   return (
     <div>
       <div onClick={() => handleOpen(true)}>
@@ -36,11 +86,11 @@ export default function ButtonAddLeads() {
       <div>
         <Modal
           open={open}
-          onClose={handleClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <Box sx={style}>
+          <form action="" onSubmit={handleSubmit}>
+            <Box sx={style}>
               <div className="modal-header-left">
                 <button
                   className="close-button"
@@ -49,6 +99,7 @@ export default function ButtonAddLeads() {
                   <h4>X</h4>
                 </button>
               </div>
+
               <div className="input-addLeads">
                 <div className="input-label">
                   <label htmlFor="nombre">NOMBRE:</label>
@@ -57,6 +108,10 @@ export default function ButtonAddLeads() {
                       type="text"
                       id="nombre"
                       className="input-bottom-border"
+                      value={addlead.name}
+                      onChange={(e) =>
+                        setAddlead({ ...addlead, name: e.target.value })
+                      }
                     />
                   </div>
                 </div>
@@ -67,6 +122,10 @@ export default function ButtonAddLeads() {
                       type="text"
                       id="nombre"
                       className="input-bottom-border"
+                      value={addlead.email}
+                      onChange={(e) =>
+                        setAddlead({ ...addlead, email: e.target.value })
+                      }
                     />
                   </div>
                 </div>
@@ -77,6 +136,10 @@ export default function ButtonAddLeads() {
                       type="text"
                       id="nombre"
                       className="input-bottom-border"
+                      value={addlead.phone}
+                      onChange={(e) =>
+                        setAddlead({ ...addlead, phone: e.target.value })
+                      }
                     />
                   </div>
                 </div>
@@ -110,11 +173,47 @@ export default function ButtonAddLeads() {
                       background: "transparent",
                     },
                   }}
+                  type="submit"
                 >
                   AÑADIR LEAD
                 </ButtonMaterial>
               </div>
-          </Box>
+            </Box>
+            <div>
+              <Stack spacing={2} sx={{ width: "100%" }}>
+                <Snackbar
+                  open={openError}
+                  autoHideDuration={4000}
+                  onClose={handleCloseError}
+                >
+                  <Alert
+                    onClose={handleCloseError}
+                    severity="error"
+                    sx={{ width: "100%" }}
+                  >
+                    Complete todos los campos
+                  </Alert>
+                </Snackbar>
+              </Stack>
+            </div>
+            <div>
+              <Stack spacing={2} sx={{ width: "100%" }}>
+                <Snackbar
+                  open={openSucces}
+                  autoHideDuration={4000}
+                  onClose={handleCloseSuccess}
+                >
+                  <Alert
+                    onClose={handleCloseSuccess}
+                    severity="success"
+                    sx={{ width: "100%" }}
+                  >
+                    Lead creado correctamente
+                  </Alert>
+                </Snackbar>
+              </Stack>
+            </div>
+          </form>
         </Modal>
       </div>
     </div>

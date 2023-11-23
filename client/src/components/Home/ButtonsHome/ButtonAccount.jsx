@@ -13,10 +13,32 @@ import MailIcon from "@mui/icons-material/Mail";
 import "../../../styles/App.css";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
+import { useNavigate } from "react-router-dom";
+import {useDispatch, useSelector} from 'react-redux';
+import {logout} from '../../../redux/action';
+import { DataPersonal } from '../../../redux/action';
+
+
+
+
 export default function ButtonAccount() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const dataPersonal = useSelector(state => state.dataPersonal);
+  const token = useSelector(state => state.token);
+
   const [state, setState] = React.useState({
     right: false,
   });
+
+
+  console.log(dataPersonal);
+
+
+
+  React.useEffect(() => {
+    dispatch(DataPersonal(token))
+  }, [token]);
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -27,6 +49,14 @@ export default function ButtonAccount() {
     }
 
     setState({ ...state, [anchor]: open });
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+
+    dispatch(logout());
+    window.location.reload();
+    navigate('/');
   };
 
   const list = (anchor) => (
@@ -45,7 +75,7 @@ export default function ButtonAccount() {
                   <Avatar
                     alt="Remy Sharp"
                     src="/static/images/avatar/1.jpg"
-                    sx={{ width: 56, height: 56, border: "3px solid #000" }}
+                    sx={{ width: 56, height: 56, border: "3px solid #000", backgroundColor:  dataPersonal.backgroundColor }}
                   />
                 </Stack>
               </ListItemIcon>
@@ -86,6 +116,13 @@ export default function ButtonAccount() {
           <div className="Sublinea-account"></div>
 
         </List>
+          <ListItem sx={{ position: "absolute", bottom: 0 }} onClick={handleLogout} disablePadding>
+            <ListItemButton>
+              <ListItemText className="text-menu">
+                <span className="text-menu">CERRAR SESIÓN</span>
+              </ListItemText>
+            </ListItemButton>
+          </ListItem>
       </Box>
     </div>
   );
