@@ -4,7 +4,7 @@ import axios from 'axios'
 
 export const register = (payload) => {
     return async (dispatch) => {
-        const res = axios.post('http://localhost:3001/register', payload)
+        const res = axios.post('https://grupo-production.up.railway.app/register', payload)
         const data = res.data
 
         return dispatch({
@@ -19,7 +19,7 @@ export const login = (email, password) => {
     return async (dispatch) => {
       try {
   
-          const response = await axios.post("http://localhost:3001/login", {
+          const response = await axios.post("https://grupo-production.up.railway.app/login", {
             email,
             password,
           });
@@ -53,7 +53,7 @@ export const logout = () => {
 
 export const Users = () => {
     return async (dispatch) => {
-        const res = axios.get('http://localhost:3001/users')
+        const res = axios.get('https://grupo-production.up.railway.app/users')
         const data = res.data
 
         return dispatch({
@@ -67,7 +67,7 @@ export const Users = () => {
 export const DataPersonal = (token) => {
   return async (dispatch) => {
     try {
-      const res = await axios.get('http://localhost:3001/user', {
+      const res = await axios.get('https://grupo-production.up.railway.app/user', {
         method: "GET",
         headers: {
           Authorization: `${token}`,
@@ -91,7 +91,7 @@ export const DataPersonal = (token) => {
 
 export const addLead = (payload) => {
   return async (dispatch) => {
-      const res = await axios.post('http://localhost:3001/lead', payload)
+      const res = await axios.post('https://grupo-production.up.railway.app/lead', payload)
       const data = res.data
 
       return dispatch({
@@ -104,7 +104,7 @@ export const addLead = (payload) => {
 
 export const AllLead = () => {
   return async (dispatch) => {
-      const res = await axios.get('http://localhost:3001/lead')
+      const res = await axios.get('https://grupo-production.up.railway.app/lead')
       const data = res.data
 
       return dispatch({

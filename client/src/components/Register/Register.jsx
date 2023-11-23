@@ -201,7 +201,7 @@ const Register = () => {
                 }}
                 onClick={handleClick}
               >
-                RESGISTRATE
+                REGISTRATE
               </Button>
               {data.password !== data.confirmPassword && (
                 <Snackbar
