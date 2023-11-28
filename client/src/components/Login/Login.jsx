@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Button, Form, Input } from "antd";
 import "../../styles/App.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/action";
 import MuiAlert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import Snackbar from "@mui/material/Snackbar";
+import ButtonMaterial from '@mui/material/Button';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -59,6 +61,15 @@ const Login = () => {
         <div>
           <div className="Logo-login">
             <img src={require("../../image/Logo.png")} alt="Not found" />
+        <Link to='/'>
+
+               <ButtonMaterial component="label" variant="contained" startIcon={<ArrowBackIcon />} sx={{
+                 width: 100,
+                 top: 30
+                }}>
+      Volver
+    </ButtonMaterial>
+                 </Link>
           </div>
           <Form
             name="basic"

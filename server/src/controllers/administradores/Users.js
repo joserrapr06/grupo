@@ -1,6 +1,5 @@
 const { User } = require('../../db');
 
-require('dotenv').config();
 
 module.exports = {
   Users: async (req, res) => {

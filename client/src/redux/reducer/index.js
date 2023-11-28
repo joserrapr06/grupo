@@ -1,7 +1,7 @@
 const initialState = {
+  token: localStorage.getItem('token'),
   loginUser: {},
   loginError: null,
-  token: localStorage.getItem('token'),
   allUser: [],
   isAuthenticated: false,
   allLead: [],
@@ -56,6 +56,7 @@ const initialState = {
             return {
               ...state,
               dataPersonal: action.payload
+
             };
        
      

@@ -24,6 +24,20 @@ import { visuallyHidden } from "@mui/utils";
 import "../../../styles/App.css";
 import { useDispatch, useSelector } from "react-redux";
 import { AllLead } from "../../../redux/action";
+import Drawer from "@mui/material/Drawer";
+import Button from "@mui/material/Button";
+import List from "@mui/material/List";
+import SearchIcon from "@mui/icons-material/Search";
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Collapse from '@mui/material/Collapse';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import AddIcon from '@mui/icons-material/Add';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import StarBorder from '@mui/icons-material/StarBorder';
+import ModalDetail from "../TableButtonLead/TableButtonLead";
 
 function createData(id, name, calories, fat, carbs, protein) {
   return {
@@ -125,7 +139,13 @@ function EnhancedTableHead(props) {
         <TableCell sx={{ color: "white", fontSize: "20px" }}>
           ACCIONES
         </TableCell>
-        <TableCell sx={{ color: "white", fontSize: "20px" }}>-</TableCell>
+        <TableCell sx={{ color: "white", fontSize: "20px" }}>
+          <img
+            src={require("../../../image/ícono seleccionar.png")}
+            alt="not found"
+            className="icons-table-title"
+          />
+        </TableCell>
       </TableRow>
     </TableHead>
   );
@@ -179,7 +199,25 @@ export default function EnhancedTable() {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [open, setOpen] = React.useState(true);
 
+  const handleClickOpen = () => {
+    setOpen(!open);
+  };
+  const [state, setState] = React.useState({
+    left: false,
+  });
+
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+
+    setState({ ...state, [anchor]: open });
+  };
   React.useEffect(() => {
     dispatch(AllLead());
   }, [dispatch]);
@@ -241,11 +279,175 @@ export default function EnhancedTable() {
       ),
     [order, orderBy, page, rowsPerPage]
   );
+  const list = (anchor) => (
+    <Box
+      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 300,   }}
+      role="presentation"
+     
+    >
+      <div className="input-filter-container">
+  <div>
+ <Typography sx={{textAlign:'center', fontWeight: 600, fontSize: 15, }}>FILTRAR LEADS POR: </Typography>
+          <input type="text" className="input-filter" placeholder="Buscar..." />
+
+  </div>
+          <IconButton type="button" sx={{ p: "10px",marginLeft: 25, marginTop: 2, position: 'absolute' }} aria-label="search">
+            <SearchIcon />
+          </IconButton>
+
+      </div>
+      <List
+      sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+      component="nav"
+      aria-labelledby="nested-list-subheader"
+   
+    >
+      <div className="linea-account"></div>
+   
+      
+      <ListItemButton onClick={handleClickOpen}>
+        <ListItemIcon>
+        <Checkbox
+                  edge="start"
+                  tabIndex={-1}
+                  disableRipple
+                />
+        </ListItemIcon>
+        <ListItemText primary="NOMBRE" />
+        {open ? <ExpandLess /> : <ExpandMore />}
+      </ListItemButton>
+      <Collapse in={open} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          <ListItemButton sx={{ pl: 4 }}>
+            <ListItemIcon>
+              <StarBorder />
+            </ListItemIcon>
+            <ListItemText primary="Starred" />
+          </ListItemButton>
+        </List>
+      </Collapse>
+      <div className="linea-account"></div>
+
+     
+      <ListItemButton onClick={handleClickOpen}>
+        <ListItemIcon>
+        <Checkbox
+                  edge="start"
+                  tabIndex={-1}
+                  disableRipple
+                />
+        </ListItemIcon>
+        <ListItemText primary="UBICACIÓN" />
+        {open ? <ExpandLess /> : <ExpandMore />}
+      </ListItemButton>
+      <Collapse in={open} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          <ListItemButton sx={{ pl: 4 }}>
+            <ListItemIcon>
+              <StarBorder />
+            </ListItemIcon>
+            <ListItemText primary="Starred" />
+          </ListItemButton>
+        </List>
+      </Collapse>
+      <div className="linea-account"></div>
+
+
+
+      <ListItemButton onClick={handleClickOpen}>
+        <ListItemIcon>
+        <Checkbox
+                  edge="start"
+                  tabIndex={-1}
+                  disableRipple
+                />
+        </ListItemIcon>
+        <ListItemText primary="ASESOR" />
+        {open ? <ExpandLess /> : <ExpandMore />}
+      </ListItemButton>
+      <Collapse in={open} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          <ListItemButton sx={{ pl: 4 }}>
+            <ListItemIcon>
+              <StarBorder />
+            </ListItemIcon>
+            <ListItemText primary="Starred" />
+          </ListItemButton>
+        </List>
+      </Collapse>
+
+      <div className="linea-account"></div>
+
+
+      <ListItemButton onClick={handleClickOpen}>
+        <ListItemIcon>
+        <Checkbox
+                  edge="start"
+                  tabIndex={-1}
+                  disableRipple
+                />
+        </ListItemIcon>
+        <ListItemText primary="FECHA" />
+        {open ? <ExpandLess /> : <ExpandMore />}
+      </ListItemButton>
+      <Collapse in={open} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          <ListItemButton sx={{ pl: 4 }}>
+            <ListItemIcon>
+              <StarBorder />
+            </ListItemIcon>
+            <ListItemText primary="Starred" />
+          </ListItemButton>
+        </List>
+      </Collapse>
+    </List>
+    <div className="leads-add-delete">
+      <div>
+        De dd/mm/aa
+      
+      </div>
+   <div className="">
+
+      <button>
+
+   <DeleteOutlineIcon/>
+      </button>
+      <button>
+
+    <AddIcon/>
+      </button>
+   </div>
+    </div>
+    </Box>
+  );
 
   return (
-    <Box sx={{ width: "100%", border: "2px solid", background: "transparent" }}>
+    <Box sx={{ width: "100%", border: "none", background: "transparent" }}>
       <Paper sx={{ width: "100%", mb: 2, background: "transparent" }}>
         {/* <EnhancedTableToolbar  /> */}
+        <div>
+          {["left"].map((anchor) => (
+            <React.Fragment key={anchor}>
+              <Button
+                onClick={toggleDrawer(anchor, true)}
+                className="btn-filtro-leads"
+              >
+                <img
+                  src={require("../../../image/Ícono filtro.png")}
+                  alt="Not found"
+                  className="img-filtro-leads"
+                />
+              </Button>
+              <Drawer
+                anchor={anchor}
+                open={state[anchor]}
+                onClose={toggleDrawer(anchor, false)}
+              >
+                {list(anchor)}
+              </Drawer>
+            </React.Fragment>
+          ))}
+        </div>
         <TablePagination
           rowsPerPageOptions={[2, 5, 8]}
           component="div"
@@ -289,13 +491,36 @@ export default function EnhancedTable() {
                     >
                       HVZ-01
                     </TableCell>
-                     
-                        <TableCell >
-                          {row.name}
-                        </TableCell>
-                  
+
+                    <TableCell>{row.name}</TableCell>
+
                     <TableCell>Enganche</TableCell>
-                    <TableCell>iconos</TableCell>
+                    <TableCell>
+                      <div className="icons-table-leads">
+                        <Button>
+                          <img
+                            src={require("../../../image/ícono contacto.png")}
+                            alt="not found"
+                            className="icons-table"
+                          />
+                        </Button>
+                        <Button>
+                        <ModalDetail/>
+                        </Button>
+
+                        <Button>
+                          <img
+                            src={require("../../../image/ícono subir documentos.png")}
+                            alt="not found"
+                            className="icons-table"
+                          />
+                        </Button>
+                        <Button>
+   <DeleteOutlineIcon/>
+
+                        </Button>
+                      </div>
+                    </TableCell>
                     <TableCell>-</TableCell>
                   </TableRow>
                 );

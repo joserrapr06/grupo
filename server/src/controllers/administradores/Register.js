@@ -14,7 +14,7 @@ function getRandomColor() {
 
 module.exports = {
   Register: async (req, res) => {
-    const { email, password, phone } = req.body;
+    const { name, lastName, email, password, phone } = req.body;
 
     try {
       const existingUser = await User.findOne({ where: { email } });
@@ -38,6 +38,8 @@ module.exports = {
 
 
       const newUser = await User.create({
+        name,
+        lastName,
         email,
         password: hashedPassword,
         phone,

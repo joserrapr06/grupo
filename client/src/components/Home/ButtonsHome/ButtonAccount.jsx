@@ -3,20 +3,17 @@ import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
 import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+
 import "../../../styles/App.css";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import { useNavigate } from "react-router-dom";
 import {useDispatch, useSelector} from 'react-redux';
-import {logout} from '../../../redux/action';
-import { DataPersonal } from '../../../redux/action';
+import {logout, DataPersonal} from '../../../redux/action';
 
 
 
@@ -32,13 +29,12 @@ export default function ButtonAccount() {
   });
 
 
-  console.log(dataPersonal);
 
 
 
   React.useEffect(() => {
     dispatch(DataPersonal(token))
-  }, [token]);
+  }, [dispatch,token ]);
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -76,11 +72,13 @@ export default function ButtonAccount() {
                     alt="Remy Sharp"
                     src="/static/images/avatar/1.jpg"
                     sx={{ width: 56, height: 56, border: "3px solid #000", backgroundColor:  dataPersonal.backgroundColor }}
-                  />
+                  >
+                    {dataPersonal.name ? dataPersonal.name[0]: null}
+                  </Avatar>
                 </Stack>
               </ListItemIcon>
               <ListItemText className="text-menu">
-                <span className="text-menu">ANTONELLA PERALTA R.</span>
+                <span className="text-menu">{dataPersonal.name} {dataPersonal.name} </span>
           <span className="subtext">codigo de asesor:123456</span>
               </ListItemText>
             </ListItemButton>
