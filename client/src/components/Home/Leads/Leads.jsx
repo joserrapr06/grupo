@@ -28,17 +28,19 @@ import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 import SearchIcon from "@mui/icons-material/Search";
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Collapse from '@mui/material/Collapse';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import AddIcon from '@mui/icons-material/Add';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import StarBorder from '@mui/icons-material/StarBorder';
-import ModalDetail from "../TableButtonLead/TableButtonLead";
-
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import Collapse from "@mui/material/Collapse";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import AddIcon from "@mui/icons-material/Add";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+import StarBorder from "@mui/icons-material/StarBorder";
+import ContactButton from "./TableButtonLead/ContactButton";
+import DetailsButton from "./TableButtonLead/DetailsButton";
+import UploadButton from "./TableButtonLead/UploadButton";
+import { MdDelete } from "react-icons/md";
 function createData(id, name, calories, fat, carbs, protein) {
   return {
     id,
@@ -281,143 +283,120 @@ export default function EnhancedTable() {
   );
   const list = (anchor) => (
     <Box
-      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 300,   }}
+      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 300 }}
       role="presentation"
-     
     >
       <div className="input-filter-container">
-  <div>
- <Typography sx={{textAlign:'center', fontWeight: 600, fontSize: 15, }}>FILTRAR LEADS POR: </Typography>
+        <div>
+          <Typography
+            sx={{ textAlign: "center", fontWeight: 600, fontSize: 15 }}
+          >
+            FILTRAR LEADS POR:{" "}
+          </Typography>
           <input type="text" className="input-filter" placeholder="Buscar..." />
-
-  </div>
-          <IconButton type="button" sx={{ p: "10px",marginLeft: 25, marginTop: 2, position: 'absolute' }} aria-label="search">
-            <SearchIcon />
-          </IconButton>
-
+        </div>
+        <IconButton
+          type="button"
+          sx={{ p: "10px", marginLeft: 25, marginTop: 2, position: "absolute" }}
+          aria-label="search"
+        >
+          <SearchIcon />
+        </IconButton>
       </div>
       <List
-      sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
-      component="nav"
-      aria-labelledby="nested-list-subheader"
-   
-    >
-      <div className="linea-account"></div>
-   
-      
-      <ListItemButton onClick={handleClickOpen}>
-        <ListItemIcon>
-        <Checkbox
-                  edge="start"
-                  tabIndex={-1}
-                  disableRipple
-                />
-        </ListItemIcon>
-        <ListItemText primary="NOMBRE" />
-        {open ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
-      <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="Starred" />
-          </ListItemButton>
-        </List>
-      </Collapse>
-      <div className="linea-account"></div>
+        sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+        component="nav"
+        aria-labelledby="nested-list-subheader"
+      >
+        <div className="linea-account"></div>
 
-     
-      <ListItemButton onClick={handleClickOpen}>
-        <ListItemIcon>
-        <Checkbox
-                  edge="start"
-                  tabIndex={-1}
-                  disableRipple
-                />
-        </ListItemIcon>
-        <ListItemText primary="UBICACIÓN" />
-        {open ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
-      <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="Starred" />
-          </ListItemButton>
-        </List>
-      </Collapse>
-      <div className="linea-account"></div>
+        <ListItemButton onClick={handleClickOpen}>
+          <ListItemIcon>
+            <Checkbox edge="start" tabIndex={-1} disableRipple />
+          </ListItemIcon>
+          <ListItemText primary="NOMBRE" />
+          {open ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItemButton sx={{ pl: 4 }}>
+              <ListItemIcon>
+                <StarBorder />
+              </ListItemIcon>
+              <ListItemText primary="Starred" />
+            </ListItemButton>
+          </List>
+        </Collapse>
+        <div className="linea-account"></div>
 
+        <ListItemButton onClick={handleClickOpen}>
+          <ListItemIcon>
+            <Checkbox edge="start" tabIndex={-1} disableRipple />
+          </ListItemIcon>
+          <ListItemText primary="UBICACIÓN" />
+          {open ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItemButton sx={{ pl: 4 }}>
+              <ListItemIcon>
+                <StarBorder />
+              </ListItemIcon>
+              <ListItemText primary="Starred" />
+            </ListItemButton>
+          </List>
+        </Collapse>
+        <div className="linea-account"></div>
 
+        <ListItemButton onClick={handleClickOpen}>
+          <ListItemIcon>
+            <Checkbox edge="start" tabIndex={-1} disableRipple />
+          </ListItemIcon>
+          <ListItemText primary="ASESOR" />
+          {open ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItemButton sx={{ pl: 4 }}>
+              <ListItemIcon>
+                <StarBorder />
+              </ListItemIcon>
+              <ListItemText primary="Starred" />
+            </ListItemButton>
+          </List>
+        </Collapse>
 
-      <ListItemButton onClick={handleClickOpen}>
-        <ListItemIcon>
-        <Checkbox
-                  edge="start"
-                  tabIndex={-1}
-                  disableRipple
-                />
-        </ListItemIcon>
-        <ListItemText primary="ASESOR" />
-        {open ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
-      <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="Starred" />
-          </ListItemButton>
-        </List>
-      </Collapse>
+        <div className="linea-account"></div>
 
-      <div className="linea-account"></div>
-
-
-      <ListItemButton onClick={handleClickOpen}>
-        <ListItemIcon>
-        <Checkbox
-                  edge="start"
-                  tabIndex={-1}
-                  disableRipple
-                />
-        </ListItemIcon>
-        <ListItemText primary="FECHA" />
-        {open ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
-      <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="Starred" />
-          </ListItemButton>
-        </List>
-      </Collapse>
-    </List>
-    <div className="leads-add-delete">
-      <div>
-        De dd/mm/aa
-      
+        <ListItemButton onClick={handleClickOpen}>
+          <ListItemIcon>
+            <Checkbox edge="start" tabIndex={-1} disableRipple />
+          </ListItemIcon>
+          <ListItemText primary="FECHA" />
+          {open ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItemButton sx={{ pl: 4 }}>
+              <ListItemIcon>
+                <StarBorder />
+              </ListItemIcon>
+              <ListItemText primary="Starred" />
+            </ListItemButton>
+          </List>
+        </Collapse>
+      </List>
+      <div className="leads-add-delete">
+        <div>De dd/mm/aa</div>
+        <div className="">
+          <button>
+            <DeleteOutlineIcon />
+          </button>
+          <button>
+            <AddIcon />
+          </button>
+        </div>
       </div>
-   <div className="">
-
-      <button>
-
-   <DeleteOutlineIcon/>
-      </button>
-      <button>
-
-    <AddIcon/>
-      </button>
-   </div>
-    </div>
     </Box>
   );
 
@@ -497,27 +476,18 @@ export default function EnhancedTable() {
                     <TableCell>Enganche</TableCell>
                     <TableCell>
                       <div className="icons-table-leads">
-                        <Button>
-                          <img
-                            src={require("../../../image/ícono contacto.png")}
-                            alt="not found"
-                            className="icons-table"
-                          />
-                        </Button>
-                        <Button>
-                        <ModalDetail/>
-                        </Button>
+                        <div>
+                          <ContactButton />
+                        </div>
+                        <div>
+                          <DetailsButton />
+                        </div>
 
-                        <Button>
-                          <img
-                            src={require("../../../image/ícono subir documentos.png")}
-                            alt="not found"
-                            className="icons-table"
-                          />
-                        </Button>
-                        <Button>
-   <DeleteOutlineIcon/>
-
+                        <div>
+                          <UploadButton />
+                        </div>
+                        <Button sx={{ fontSize: 30, color: "#000" }}>
+                          <MdDelete />
                         </Button>
                       </div>
                     </TableCell>

@@ -61,16 +61,31 @@ const Login = () => {
         <div>
           <div className="Logo-login">
             <img src={require("../../image/Logo.png")} alt="Not found" />
-        <Link to='/'>
 
-               <ButtonMaterial component="label" variant="contained" startIcon={<ArrowBackIcon />} sx={{
-                 width: 100,
-                 top: 30
-                }}>
-      Volver
-    </ButtonMaterial>
-                 </Link>
           </div>
+          <div>
+       <Link to="/" className="btn-back">
+            <ButtonMaterial
+              component="label"
+              variant="contained"
+              startIcon={<ArrowBackIcon />}
+              sx={{
+                width: 100,
+                top: 190,
+                '@media screen and (max-width: 1800px)': {
+                  // Estilos específicos para pantallas con un ancho máximo de 600px
+                  top: 145,
+                },
+                '@media screen and (max-width: 768px)': {
+                  // Estilos específicos para pantallas con un ancho máximo de 600px
+                  top: 130,
+                },
+              }}
+            >
+              Volver
+            </ButtonMaterial>
+          </Link>
+       </div>
           <Form
             name="basic"
             labelCol={{

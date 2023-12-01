@@ -311,7 +311,7 @@ export default function ButtonAddLeads() {
                     <input
                       type="text"
                       id="nombre"
-                      className="input-bottom-border"
+                      className="input-addLead "
                       value={addlead.phone}
                       onChange={(e) =>
                         setAddlead({ ...addlead, phone: e.target.value })

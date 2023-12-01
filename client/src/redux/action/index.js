@@ -115,6 +115,9 @@ export const AllLead = () => {
   }
 }
 
+
+
+
 /* export const register = (payload) => {
   return async (dispatch) => {
       const res = axios.post('http://localhost:3001/register', payload)
@@ -178,23 +181,7 @@ export const Users = () => {
 }
 
 
-/*  export const dataPersonal = (token) => {
-  return async (dispatch) => {
-   const res = await axios.get('https://demo-turistic-production.up.railway.app/user', {
-    method: "GET",
-    headers: {
-      Authorization: `${token}`,
-    "Content-Type": "application/json",
-  },
-   }) ;
-   const data = await res.data;
- 
-   return dispatch({
-    type:'SET_DATA_PERSONAL',
-    payload: data
-   })
-  }
- }; 
+
 
 export const DataPersonal = (token) => {
 return async (dispatch) => {
@@ -251,4 +238,4 @@ return async (dispatch) => {
 
 
 
- */
+  */

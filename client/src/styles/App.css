@@ -35,7 +35,7 @@
 
 
   } */
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 768px) {
   .img-Logo {
     width: 5em;
   }
@@ -110,6 +110,13 @@
   font-family: "clear sans";
   width: 10em;
 }
+.details-name-modal {
+  font-size: 30px;
+  font-weight: 500;
+  text-align: center;
+  border-radius: 50%;
+  font-family: "clear sans";
+}
 .icons-menu {
   width: 2.5em;
   height: 2.5em;
@@ -147,7 +154,6 @@
   gap: 2em;
 }
 
-
 .icons-table {
   width: 3em;
 }
@@ -160,7 +166,7 @@
   display: flex;
   gap: 2em;
 }
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 768px) {
   .icon-notification {
     width: 3em;
     border: 3px solid #000;
@@ -191,7 +197,9 @@
 .avatar-contact {
   display: grid;
 }
-
+.avatar-details {
+  display: grid;
+}
 
 .css-pdct74-MuiTablePagination-selectLabel {
   display: none;
@@ -226,6 +234,8 @@
   padding: 2%;
 }
 
+
+
 .login-box {
   display: grid;
   justify-content: center;
@@ -234,11 +244,46 @@
 .Logo-login {
   display: grid;
   justify-content: center;
-  margin-bottom: -5em;
+  margin-bottom: -10em;
   margin-top: 5em;
 }
 .Logo-login img {
   width: 30em;
+}
+
+.btn-back {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 34.2%;
+}
+
+@media (max-width:1800px) {
+  .login-box {
+    display: grid;
+    justify-content: center;
+    gap: 1em;
+
+  }
+  .login-container {
+    border: 3px solid #000;
+    background: #ffffff;
+    margin: 20vh auto;
+  }
+  .Logo-login {
+    display: grid;
+    justify-content: center;
+    margin-bottom: -6em;
+    margin-top: 2em;
+  }
+  .Logo-login img{
+  width: 20em;
+    
+  }
+  .btn-back {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 30%;
+  }
 }
 .input-addLeads {
   display: grid;
@@ -260,6 +305,13 @@
 .input-bottom-border {
   border: none;
   border-bottom: 1px solid black; /* Ajusta el color y el grosor según tus preferencias */
+  outline: none; /* Elimina el resplandor azul al enfocar */
+  width: 80%;
+}
+
+.input-addLead {
+  border: none;
+  border-bottom: 2px dashed; /* Agrega un borde inferior punteado con el grosor deseado *//* Ajusta el color y el grosor según tus preferencias */
   outline: none; /* Elimina el resplandor azul al enfocar */
   width: 80%;
 }
@@ -325,20 +377,197 @@
 }
 .leads-add-delete {
   display: flex;
-justify-content: center;
-gap: 2em;
+  justify-content: center;
+  gap: 2em;
 }
 .leads-add-delete button {
-background-color: transparent;
+  background-color: transparent;
 }
 
 .icons-contact {
   width: 50px;
   font-size: 2em;
-  
+}
+.icons-details {
+  width: 100%;
+  font-size: 4em;
 }
 
-.icons-contact-container{
+.icons-contact-container {
   display: flex;
-  gap:1.5em;
+  gap: 1.5em;
+}
+.icons-details-container {
+  display: flex;
+  gap: 1.5em;
+  bottom: 0;
+  position: fixed;
+  border: 3px solid #000;
+  width: 300px;
+  padding: 1%;
+  z-index: 1000;
+  background-color: white;
+}
+
+.status-detail-lead {
+  display: grid;
+  justify-content: center;
+  gap: 30%;
+  margin-top: 15%;
+}
+
+.interesed {
+  color: rgba(129, 123, 1, 0.583);
+}
+.no-env {
+  color: rgb(244, 0, 0);
+}
+.whatsapp {
+  color: rgb(0, 83, 0);
+}
+.details-container {
+  overflow: scroll;
+  max-height: 100%;
+  height: 100%;
+}
+.details-input-container {
+  display: flex;
+  justify-content: center;
+  gap: 20%;
+  margin-bottom: 25%;
+}    
+
+.details-input-container2 {
+  display: flex;
+  justify-content: center; /* Centra los elementos horizontalmente */
+  align-items: center; /* Centra los elementos verticalmente */
+  margin-bottom: 5%;
+  margin-left: 10%;
+}
+.details-textarea{
+  margin-left: 27%;
+  margin-bottom: 10%;
+}
+
+
+.details-input {
+  display: grid;
+  gap: 25%;
+}
+.details-input2 {
+  display: flex;
+  gap: 130px; /* Ajusta el espacio entre los elementos según tus necesidades */
+}
+
+
+
+
+.input-details {
+  width: 100%;
+  display: grid;
+  gap: 15%;
+}
+.textarea-details {
+  width: 100%;
+  display: grid;
+}
+
+
+.lead-input-detail {
+  border: 3px solid #000; /* Elimina todos los bordes */
+  outline: none;
+  width: 200%;
+  height: 150%;
+}
+
+.lead-input-detail2 {
+  border: 3px solid #000; /* Elimina todos los bordes */
+  outline: none;
+  width: 127%;
+  height: 150%;
+}
+
+.lead-input-textarea {
+  border: 3px solid #000; /* Elimina todos los bordes */
+  outline: none;
+  width: 81%;
+  height: 300%;
+}
+
+.btn-add-details {
+  display: flex;
+  gap: 1.5em;
+  position: fixed;
+  bottom: 0;
+  left: 50%; /* Centrar el contenedor horizontalmente */
+  transform: translateX(-50%); /* Centrar el contenedor horizontalmente */
+  border: 2px solid #000;
+  width: 100%; /* Limitar el ancho máximo del contenedor */
+  padding: 1%;
+  background-color: white; /* Añadir un color de fondo opcional */
+  z-index: 1000; /* Ajustar el índice z para estar seguro de que está encima del contenido */
+}
+
+
+.text-details {
+  text-align: center;
+  margin-bottom: 3%;
+
+}
+@media (max-width: 1800px) {
+  .details-input-container {
+    gap: 12%;
+    margin-bottom: 30%;
+  }
+  .details-input2 {
+  margin-left: 1%;
+  }
+  .details-input2 {
+    display: flex;
+    gap: 20px; /* Ajusta el espacio entre los elementos según tus necesidades */
+  }
+  .lead-input-detail2 {
+    width: 100%;
+  }
+  .lead-input-detail {
+    width: 150%;
+  }
+.details-textarea{
+  margin-left: 24%;
+  margin-bottom: 15%;
+}
+.lead-input-textarea {
+ 
+  width: 81%;
+}
+
+}
+
+@media screen and (max-width: 768px) {
+  .details-input-container {
+    gap: 12%;
+    margin-bottom: 30%;
+  }
+  .details-input2 {
+  margin-left: 1%;
+  }
+  .details-input2 {
+    display: flex;
+    gap: 20px; /* Ajusta el espacio entre los elementos según tus necesidades */
+  }
+  .lead-input-detail2 {
+    width: 100%;
+  }
+  .lead-input-detail {
+    width: 150%;
+  }
+.details-textarea{
+  margin-left: 24%;
+
+}
+.lead-input-textarea {
+ 
+  width: 81%;
+}
+
 }
