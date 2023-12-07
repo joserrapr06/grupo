@@ -11,19 +11,15 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
-import DeleteIcon from "@mui/icons-material/Delete";
+
 import FilterListIcon from "@mui/icons-material/FilterList";
-import { visuallyHidden } from "@mui/utils";
 import "../../../styles/App.css";
 import { useDispatch, useSelector } from "react-redux";
-import { AllLead } from "../../../redux/action";
+import { AllLead, DeleteClient, UpdateClient } from "../../../redux/action";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
 import List from "@mui/material/List";
@@ -37,10 +33,61 @@ import AddIcon from "@mui/icons-material/Add";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import StarBorder from "@mui/icons-material/StarBorder";
-import ContactButton from "./TableButtonLead/ContactButton";
-import DetailsButton from "./TableButtonLead/DetailsButton";
 import UploadButton from "./TableButtonLead/UploadButton";
 import { MdDelete } from "react-icons/md";
+import { Link, useParams } from "react-router-dom";
+import { ClientLead } from "../../../redux/action";
+import { GrContact } from "react-icons/gr";
+import { LuPhoneCall } from "react-icons/lu";
+import { FaWhatsapp } from "react-icons/fa";
+import { TfiCommentAlt } from "react-icons/tfi";
+import { MdOutlineEmail } from "react-icons/md";
+import Modal from "@mui/material/Modal";
+import Avatar from "@mui/material/Avatar";
+import Stack from "@mui/material/Stack";
+import Divider from "@mui/material/Divider";
+import { AiOutlineSolution } from "react-icons/ai";
+import CssBaseline from "@mui/material/CssBaseline";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import { Card, CardContent, Typography, useTheme } from "@mui/material";
+import { useDropzone } from "react-dropzone";
+
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 700,
+  height: 300,
+  bgcolor: "background.paper",
+  border: "5px solid #000",
+  boxShadow: 24,
+  p: 8,
+};
+
+const styleDetails = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "90%",
+  height: "90%",
+  bgcolor: "background.paper",
+  border: "5px solid #000",
+  boxShadow: 24,
+  p: 8,
+
+  "@media (max-width: 1440px)": {
+    width: "95%",
+    height: "95%",
+  },
+};
+const drawerWidth = 300;
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 function createData(id, name, calories, fat, carbs, protein) {
   return {
     id,
@@ -192,7 +239,8 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable() {
+export default function Leads() {
+  const { clientId } = useParams();
   const dispatch = useDispatch();
   const allLead = useSelector((state) => state.allLead);
   const [order, setOrder] = React.useState("asc");
@@ -201,14 +249,149 @@ export default function EnhancedTable() {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [open, setOpen] = React.useState(true);
-
-  const handleClickOpen = () => {
-    setOpen(!open);
-  };
+  const [open, setOpen] = React.useState(false);
+  const [openDetails, setOpenDetails] = React.useState(false);
+  const [openSucces, setOpenSuccess] = React.useState(false);
+  const theme = useTheme();
+  const [identifyImage, setIdentifyImage] = React.useState(null);
+  const [addressImage, setAddressImage] = React.useState(null);
+  const [dataClient, setDataClient] = React.useState({
+    name: "",
+    email: "",
+    phone: "",
+    nationality: "",
+    curp: "",
+    country_of_origin: "",
+    rfc: "",
+    occupation: "",
+    civil_status: "",
+    lot_of_interest: "",
+    municipality: "",
+    country: "",
+    state: "",
+    address: "",
+  });
+  
+  const clientLead = useSelector((state) => state.clientLead);
   const [state, setState] = React.useState({
     left: false,
   });
+
+
+  const handleCloseSuccess = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenSuccess(false);
+  };
+
+  const handleOpenDetails = () => {
+    setOpenDetails(true);
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    try {
+      await dispatch(UpdateClient(clientLead.id, dataClient));
+      setOpenSuccess(true);
+      setTimeout(async () => {
+        window.location.reload();
+      }, 1000);
+
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setDataClient((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const onDrop = (acceptedFiles) => {
+    // Puedes hacer algo con los archivos, como cargarlos a un servidor
+    // Aquí, simplemente asumiremos que el primer archivo es una imagen y lo mostraremos
+    const uploadedImageFile = acceptedFiles[0];
+
+
+    if (uploadedImageFile) {
+      const imageUrl = URL.createObjectURL(uploadedImageFile);
+      setIdentifyImage(imageUrl);
+    }
+  };
+
+
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+  });
+
+
+
+  const dropzoneStyles = (theme, isDragActive) => ({
+    borderRadius: "4px",
+    padding: "20px",
+    textAlign: "center",
+    cursor: "pointer",
+  });
+  const drawer = (
+    <div>
+      <Toolbar />
+      <Divider />
+      <List>
+        <div className="avatar-details">
+          <Stack
+            direction="row"
+            spacing={2}
+            sx={{ display: "flex", justifyContent: "center" }}
+          >
+            <Avatar
+              alt="Remy Sharp"
+              src="/static/images/avatar/1.jpg"
+              sx={{ width: 100, height: 100, border: "3px solid #000" }}
+            />
+          </Stack>
+          <span className="details-name-modal">{clientLead.name}</span>
+        </div>
+        <div className="linea-account"></div>
+        <div className="status-detail-lead">
+          <div>
+            ESTATUS: <span className="interesed">INTERESADO</span>
+          </div>
+          <div>
+            CONTRATO: <span className="no-env">NO ENVIADO</span>
+          </div>
+          <div>
+            MEDIO: <span className="whatsapp">WHATSAPP</span>
+          </div>
+          <div>
+            ASESOR: <span>NAYELI S.</span>
+          </div>
+        </div>
+      </List>
+      <div className="icons-details-container">
+        <LuPhoneCall className="icons-details" />
+        <TfiCommentAlt className="icons-details" />
+        <FaWhatsapp className="icons-details" />
+        <MdOutlineEmail className="icons-details" />
+      </div>
+    </div>
+  );
+  React.useEffect(() => {
+    dispatch(ClientLead(clientId));
+  }, [dispatch, clientId]);
+  const handleClickOpen = () => {
+    setOpen(!open);
+  };
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => {
+    setOpen(false);
+    setOpenDetails(false)
+  };
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -281,6 +464,7 @@ export default function EnhancedTable() {
       ),
     [order, orderBy, page, rowsPerPage]
   );
+
   const list = (anchor) => (
     <Box
       sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 300 }}
@@ -452,7 +636,7 @@ export default function EnhancedTable() {
             />
             <TableBody>
               {allLead.map((row, index) => {
-                const labelId = `enhanced-table-checkbox-${index}`;
+                const labelId = index;
 
                 return (
                   <TableRow
@@ -477,18 +661,39 @@ export default function EnhancedTable() {
                     <TableCell>
                       <div className="icons-table-leads">
                         <div>
-                          <ContactButton />
+                          <Link to={`/home/leads/${row.id}`}>
+                            <Button
+                              onClick={handleOpen}
+                              sx={{ fontSize: 30, color: "#000" }}
+                            >
+                              <GrContact />
+                            </Button>
+                          </Link>
                         </div>
-                        <div>
-                          <DetailsButton />
-                        </div>
+
+                        <Link
+                          to={`/home/leads/${row.id}`}
+                          className="icons-table-leads"
+                        >
+                        <Button onClick={handleOpenDetails} sx={{ fontSize: 30, color: "#000" }}>
+        <AiOutlineSolution />
+      </Button>
+                        </Link>
 
                         <div>
                           <UploadButton />
                         </div>
-                        <Button sx={{ fontSize: 30, color: "#000" }}>
-                          <MdDelete />
-                        </Button>
+                        <Link to={`/home/leads/${row.id}`}>
+                          <Button
+                            onClick={() => {
+                              dispatch(DeleteClient(row.id));
+                              window.location.reload();
+                            }}
+                            sx={{ fontSize: 30, color: "#000" }}
+                          >
+                            <MdDelete />
+                          </Button>
+                        </Link>
                       </div>
                     </TableCell>
                     <TableCell>-</TableCell>
@@ -507,6 +712,436 @@ export default function EnhancedTable() {
             </TableBody>
           </Table>
         </TableContainer>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <div className="table-modal-contact">
+              <div className="avatar-contact">
+                <Stack
+                  direction="row"
+                  spacing={2}
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Avatar
+                    alt="Remy Sharp"
+                    src="/static/images/avatar/1.jpg"
+                    sx={{
+                      width: 100,
+                      height: 100,
+                      border: "3px solid #000",
+                    }}
+                  />
+                </Stack>
+                <span className="name-table-modal">{clientLead.name}</span>
+              </div>
+              <div className="lead-modal-contact">
+                <div>
+                  <strong>TELÉFONO</strong> : {clientLead.phone}
+                </div>
+                <div>
+                  <strong>EMAIL</strong> :
+                  <input
+                    type="text"
+                    className="lead-input-contact"
+                    value={clientLead.email}
+                  />
+                </div>
+                <div className="icons-contact-container">
+                  <a href={`tel://${clientLead.phone}`} target="_blank">
+                    <LuPhoneCall className="icons-contact" />
+                  </a>
+                  <a
+                    href={`sms:${clientLead.phone}`}
+                    class="email"
+                    target="_blank"
+                  >
+                    <TfiCommentAlt className="icons-contact" />
+                  </a>
+
+                  <a
+                    href={`https://wa.me/${clientLead.phone}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <FaWhatsapp className="icons-contact" />
+                  </a>
+                  <a
+                    href={`mailto:${clientLead.email}`}
+                    class="email"
+                    target="_blank"
+                  >
+                    <MdOutlineEmail className="icons-contact" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </Box>
+        </Modal>
+        <div>
+        <Modal
+        open={openDetails}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={styleDetails}>
+          <CssBaseline />
+
+          <Box
+            component="nav"
+            sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+            aria-label="mailbox folders"
+          >
+            <Drawer
+              variant="permanent"
+              sx={{
+                display: { xs: "none", sm: "block" },
+                "& .MuiDrawer-paper": {
+                  boxSizing: "border-box",
+                  width: drawerWidth,
+                },
+              }}
+              open
+            >
+              {drawer}
+            </Drawer>
+          </Box>
+
+          <form onSubmit={handleSubmit} className="details-container">
+            <div className="details-input-container">
+              <div className="details-input">
+                <div className="input-details">
+                  <label>NOMBRE</label>
+                  <input
+                    type="text"
+                    name="name"
+                    className="lead-input-detail"
+                    value={dataClient.name || clientLead.name}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="input-details">
+                  <label>NACIONALIDAD</label>
+                  <input
+                    type="text"
+                    name="nationality"
+                    className="lead-input-detail"
+                    value={dataClient.nationality || clientLead.nationality}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="input-details">
+                  <label>CURP</label>
+                  <input
+                  name="curp"
+                  type="text"
+                   className="lead-input-detail"
+                    value={dataClient.curp || clientLead.curp}
+                    onChange={handleChange}
+                    />
+                </div>
+                <div className="input-details">
+                  <label>RFC</label>
+                  <input
+                   type="text"
+                   name="rfc" 
+                   className="lead-input-detail"
+                   value={dataClient.rfc || clientLead.rfc}
+                   onChange={handleChange}
+                    />
+                </div>
+                <div className="input-details">
+                  <label>ESTADO CIVIL</label>
+                  <input
+                   type="text"
+                   name="civil_status"
+                    className="lead-input-detail"
+                    value={dataClient.civil_status || clientLead.civil_status}
+                    onChange={handleChange}
+                     />
+                </div>
+              </div>
+
+              <div className="details-input">
+                <div className="input-details">
+                  <label> N* DE TELEFONO</label>
+                  <input 
+                  type="text"
+                  name="phone"
+                   className="lead-input-detail"
+                   value={dataClient.phone || clientLead.phone}
+                   onChange={handleChange}
+                    />
+                </div>
+                <div className="input-details">
+                  <label>EMAIL</label>
+                  <input 
+                  type="email"
+                  name="email"
+                   className="lead-input-detail"
+                   value={dataClient.email || clientLead.email}
+                   onChange={handleChange}
+                    />
+                </div>
+                <div className="input-details">
+                  <label>PAÍS DE ORIGEN</label>
+                  <input 
+                  type="text" 
+                  name="country_of_origin" 
+                  className="lead-input-detail" 
+                    value={dataClient.country_of_origin || clientLead.country_of_origin}
+                   onChange={handleChange}
+                  />
+                </div>
+                <div className="input-details">
+                  <label>OCUPACIÓN</label>
+                  <input 
+                  type="text"
+                  name="occupation" 
+                  className="lead-input-detail" 
+                  value={dataClient.occupation || clientLead.occupation}
+                  onChange={handleChange}
+                  />
+                </div>
+                <div className="input-details">
+                  <label>LOTE DE INTERÉS</label>
+                  <input
+                   type="text"
+                   name="lot_of_interest"
+                    className="lead-input-detail" 
+                    value={dataClient.lot_of_interest || clientLead.lot_of_interest}
+                    onChange={handleChange}
+                    />
+                </div>
+              </div>
+            </div>
+
+            <div className="details-input-container2">
+              <div className="details-input2">
+                <div className="input-details">
+                  <label>PAÍS</label>
+                  <input type="text" className="lead-input-detail2" />
+                </div>
+                <div className="input-details">
+                  <label>ESTADO</label>
+                  <input type="text" className="lead-input-detail2" />
+                </div>
+                <div className="input-details">
+                  <label>MUNICIPIO</label>
+                  <input type="text" className="lead-input-detail2" />
+                </div>
+              </div>
+            </div>
+
+            <div className="details-textarea">
+              <div className="details-input2">
+                <div className="textarea-details">
+                  <label>DIRECCIÓN</label>
+                  <textarea type="text" className="lead-input-textarea" />
+                </div>
+              </div>
+            </div>
+
+            <div className="text-details">
+              <strong>
+                El domicilio es el mismo para el envío de contrato?
+              </strong>
+              <input type="checkbox" name="" id="" />
+            </div>
+
+            <div className="details-input-container2">
+              <div className="details-input2">
+                <div className="input-details">
+                  <label>PAÍS</label>
+                  <input type="text" className="lead-input-detail2" />
+                </div>
+                <div className="input-details">
+                  <label>ESTADO</label>
+                  <input type="text" className="lead-input-detail2" />
+                </div>
+                <div className="input-details">
+                  <label>MUNICIPIO</label>
+                  <input type="text" className="lead-input-detail2" />
+                </div>
+              </div>
+            </div>
+
+            <div className="details-textarea">
+              <div className="details-input2">
+                <div className="textarea-details">
+                  <label>DIRECCIÓN</label>
+                  <textarea type="text" className="lead-input-textarea" />
+                </div>
+              </div>
+              <React.Fragment>
+
+          <div className="input-img">
+            <div>
+              <Typography
+                sx={{ fontSize: "15px", textAlign: "center", fontWeight: 700 }}
+              >
+                IDENTIFICACIÓN OFICIAL
+              </Typography>
+              <Card
+                sx={{ minWidth: 275, border: "2px solid #000", height: 150 }}
+              >
+                <CardContent
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100%",
+                  }}
+                  {...getRootProps()}
+                  style={dropzoneStyles(theme, isDragActive)}
+                >
+                  <input {...getInputProps()} />
+                  {identifyImage ? (
+                    <img
+                      src={identifyImage}
+                      alt="Uploaded"
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
+                  ) : isDragActive ? (
+                    <Typography variant="body1" component="div" color="primary">
+                      Suelta la imagen aquí...
+                    </Typography>
+                  ) : (
+                    <AddIcon sx={{ fontSize: "5em", color: "gray" }} />
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+
+            <div>
+              <Typography
+                sx={{ fontSize: "15px", textAlign: "center", fontWeight: 700 }}
+              >
+                COMPROBANTE DE DOMICILIO
+              </Typography>
+              <Card
+                sx={{ minWidth: 275, border: "2px solid #000", height: 150 }}
+              >
+                <CardContent
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100%",
+                  }}
+                  {...getRootProps()}
+                  style={dropzoneStyles(theme, isDragActive)}
+                >
+                  <input {...getInputProps()} />
+                  {addressImage ? (
+                    <img
+                      src={addressImage}
+                      alt="Uploaded"
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
+                  ) : isDragActive ? (
+                    <Typography variant="body1" component="div" color="primary">
+                      Suelta la imagen aquí...
+                    </Typography>
+                  ) : (
+                    <AddIcon sx={{ fontSize: "5em", color: "gray" }} />
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+          <div>
+            <Typography
+              sx={{ fontSize: "15px", textAlign: "center", fontWeight: 700 }}
+            >
+              IDENTIFICACIÓN OFICIAL
+            </Typography>
+            <Card
+                sx={{ minWidth: 275, border: "2px solid #000", height: 150 }}
+              >
+                <CardContent
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100%",
+                  }}
+                  {...getRootProps()}
+                  style={dropzoneStyles(theme, isDragActive)}
+                >
+                  <input {...getInputProps()} />
+                  {addressImage ? (
+                    <img
+                      src={addressImage}
+                      alt="Uploaded"
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
+                  ) : isDragActive ? (
+                    <Typography variant="body1" component="div" color="primary">
+                      Suelta la imagen aquí...
+                    </Typography>
+                  ) : (
+                    <AddIcon sx={{ fontSize: "5em", color: "gray" }} />
+                  )}
+                </CardContent>
+              </Card>
+          </div>
+    </React.Fragment>
+            </div>
+
+            <div className="btn-add-details ">
+              <Button
+                variant="contained"
+                sx={{
+                  width: "20%",
+                  left: "50%",
+                  transform: "translateX(-20%)",
+                }}
+                type="submit"
+              >
+                GUARDAR
+              </Button>
+            </div>
+            <div>
+              <Stack spacing={2} sx={{ width: "100%" }}>
+                <Snackbar
+                  open={openSucces}
+                  autoHideDuration={4000}
+                  onClose={handleCloseSuccess}
+                >
+                  <Alert
+                    onClose={handleCloseSuccess}
+                    severity="success"
+                    sx={{ width: "100%" }}
+                  >
+                    Guardado correctamente
+                  </Alert>
+                </Snackbar>
+              </Stack>
+            </div>
+          </form>
+        </Box>
+      </Modal>
+        </div>
       </Paper>
     </Box>
   );

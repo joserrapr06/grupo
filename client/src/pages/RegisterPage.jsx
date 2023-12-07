@@ -9,7 +9,7 @@ export default function RegisterPage() {
   useEffect(() => {
     setTimeout(async () => {
       setLoading(false);
-    }, 1500);
+    }, 1000);
   }, []);
 
   return (

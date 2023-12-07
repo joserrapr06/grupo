@@ -12,7 +12,7 @@ export default function LoginPage() {
     useEffect(() => {
       setTimeout(async () => {
         setLoading(false);
-      }, 1500);
+      }, 1000);
     }, []);
     return (
         <div>

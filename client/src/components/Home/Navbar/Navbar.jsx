@@ -28,6 +28,7 @@ import Tab from '@mui/material/Tab';
 import Carrusel from "../Inventario/Carrusel";
 import Leads from "../Leads/Leads";
 import ButtonAddLeads from "../ButtonsHome/ButtonAddLeads";
+import ButtonsOptions from "../ButtonsOptions/ButtonsOptions";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -279,45 +280,7 @@ export default function Navbar() {
               className="img-Logo"
             />
           </Typography>
-    <div className="test">
-    <Box sx={{ bgcolor: 'transparent', width: '100%' }}>
-      <AppBar position="static" sx={{ bgcolor: 'transparent', width: '100%' }}>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          variant="fullWidth"
-          
-        >
-          
-          <Tab sx={{ width: "100%", bgcolor: "transparent", color: "#000", border: "2px solid #000", "&:hover": { border: "2px solid #000",  }, fontFamily: 'glacial indifference' }}  label="INVENTARIO" {...a11yProps(0)} />
-          <Tab sx={{ width: "100%", background: "transparent", color: "#000", border: "2px solid #000", "&:hover": { border: "2px solid #000",  }, fontFamily: 'glacial indifference' }} label="LEADS" {...a11yProps(1)} />
-          <Tab sx={{ width: "100%", bgcolor: "transparent", color: "#000", border: "2px solid #000", "&:hover": { border: "2px solid #000",  }, fontFamily: 'glacial indifference' }} label="VENTAS" {...a11yProps(2)} />
-          <Tab sx={{ width: "100%", bgcolor: "transparent", color: "#000", border: "2px solid #000", "&:hover": { border: "2px solid #000",  }, fontFamily: 'glacial indifference' }} label="CAPAÑAS" {...a11yProps(3)} />
-
-        </Tabs>
-      </AppBar>
-      <div
-        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-        index={value}
-        onChangeIndex={handleChangeIndex}
-      >
-        <TabPanel  value={value} index={0} dir={theme.direction}>
-     <Carrusel/>
-        </TabPanel>
-        <TabPanel value={value} index={1} dir={theme.direction}>
-         <Leads/>
-        </TabPanel>
-        <TabPanel value={value} index={2} dir={theme.direction}>
-          loro
-        </TabPanel>
-        <TabPanel value={value} index={3} dir={theme.direction}>
-          asado
-        </TabPanel>
-      </div>
-    </Box>
-    </div>
     </>
 
   );
 }
-//khabskjbkajsd

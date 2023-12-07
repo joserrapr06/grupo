@@ -236,9 +236,6 @@ export default function ButtonAddLeads() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!addlead.name || !addlead.email || !addlead.phone) {
-      setOpenError(true);
-    } else {
       dispatch(addLead(addlead));
       setAddlead({
         name: "",
@@ -246,7 +243,9 @@ export default function ButtonAddLeads() {
         phone: "",
       });
       setOpenSuccess(true);
-    }
+      setTimeout(async () => {
+        window.location.reload();
+      }, 1000);
   };
 
   return (
@@ -295,7 +294,7 @@ export default function ButtonAddLeads() {
                   <label htmlFor="nombre">EMAIL:</label>
                   <div className="input-container">
                     <input
-                      type="text"
+                      type="email"
                       id="nombre"
                       className="input-bottom-border"
                       value={addlead.email}
@@ -342,23 +341,7 @@ export default function ButtonAddLeads() {
                 </ButtonMaterial>
               </div>
             </Box>
-            <div>
-              <Stack spacing={2} sx={{ width: "100%" }}>
-                <Snackbar
-                  open={openError}
-                  autoHideDuration={4000}
-                  onClose={handleCloseError}
-                >
-                  <Alert
-                    onClose={handleCloseError}
-                    severity="error"
-                    sx={{ width: "100%" }}
-                  >
-                    Complete todos los campos
-                  </Alert>
-                </Snackbar>
-              </Stack>
-            </div>
+      
             <div>
               <Stack spacing={2} sx={{ width: "100%" }}>
                 <Snackbar

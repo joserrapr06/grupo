@@ -5,6 +5,9 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import { useDispatch, useSelector } from "react-redux";
 import InicialPage from './pages/InicialPage';
+import Navbar from './components/Home/Navbar/Navbar';
+import Carrusel from './components/Home/Inventario/Carrusel';
+import Leads from './components/Home/Leads/Leads';
 
 
 
@@ -13,33 +16,55 @@ function App() {
 
   return (
     <Router>
-        {!token && (
-<Routes>
+      {!token && (
+        <Routes>
 
           <Route path='/home' element={<Navigate to='/' />} />
-</Routes>
-        )}
-        {token && (
+          <Route path='/home/:clientId' element={<Navigate to='/' />} />
 
-          <Routes>
 
-            <Route path='/' element={<Navigate to='/home' />} />
-            <Route path='/login' element={<Navigate to='/home' />} />
-            <Route path='/register' element={<Navigate to='/home' />} />
+        </Routes>
+      )}
+      {token && (
 
-          </Routes>
-        )}
+        <Routes>
+
+          <Route path='/' element={<Navigate to='/home' />} />
+          <Route path='/login' element={<Navigate to='/home' />} />
+          <Route path='/register' element={<Navigate to='/home' />} />
+
+        </Routes>
+      )}
       <Routes>
 
         <Route exact path='/' element={<InicialPage />} />
 
 
         <Route exact path='/login' element={<LoginPage />} />
-        <Route exact path='/home' element={<Home />} />
         <Route exact path='/Register' element={<RegisterPage />} />
 
 
-        <Route exact path='/test' element={<Test />} />
+        <Route  path='/test' element={<Test />} />
+
+
+      <Route path="/home" element={<Home />}>
+           <Route index element={<Carrusel />} /> 
+          <Route path="inventario" element={<Carrusel/>} />
+          <Route path="leads" element={<Leads/>} />
+
+          <Route path="leads/:clientId" element={<Leads/>} />
+
+
+          <Route path="mi sitio" element={<RegisterPage />} />
+          <Route path="mi sitio" element={<InicialPage />} />
+  
+
+
+
+        </Route>
+
+
+
 
 
       </Routes>

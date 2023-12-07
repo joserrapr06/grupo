@@ -5,7 +5,9 @@ const initialState = {
   allUser: [],
   isAuthenticated: false,
   allLead: [],
-  dataPersonal: []
+  dataPersonal: [],
+  clientLead: []
+
   
   }
   
@@ -58,6 +60,30 @@ const initialState = {
               dataPersonal: action.payload
 
             };
+            case 'CLIENT_LEAD':
+              return {
+                ...state,
+                clientLead: action.payload
+  
+              };
+
+              case 'UPDATE_LEAD':
+
+              return {
+                ...state,
+                clientLead: { ...state.clientLead, ...action.payload },
+
+              }
+              case "DELETE_LEAD":
+
+              return {
+                ...state,
+                clientLead: { ...state.clientLead, ...action.payload },
+              };
+
+
+
+            
        
      
   
