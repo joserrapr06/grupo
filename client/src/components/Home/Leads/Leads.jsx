@@ -243,7 +243,6 @@ export default function Leads() {
   const { clientId } = useParams();
   const dispatch = useDispatch();
   const allLead = useSelector((state) => state.allLead);
-
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
@@ -290,30 +289,6 @@ export default function Leads() {
   const handleOpenDetails = () => {
     setOpenDetails(true);
   };
-
-
-  React.useEffect(() => {
-    dispatch(AllLead());
-    dispatch(ClientLead(clientId));
-
-    setDataClient({
-      name: clientLead.name,
-      email:clientLead.email,
-      phone: clientLead.phone,
-      nationality: clientLead.nationality,
-      curp: clientLead.curp,
-      country_of_origin: clientLead.country_of_origin,
-      rfc: clientLead.rfc,
-      occupation: clientLead.occupation,
-      civil_status: clientLead.civil_status,
-      lot_of_interest:clientLead.lot_of_interest,
-      municipality: clientLead.municipality,
-      country: clientLead.country,
-      state: clientLead.state,
-      address:  clientLead.address,
-
-    })
-  }, [dispatch, clientId]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -406,7 +381,26 @@ export default function Leads() {
       </div>
     </div>
   );
+  React.useEffect(() => {
+    dispatch(ClientLead(clientId));
+    setDataClient({
+      name: clientLead.name,
+      email:clientLead.email,
+      phone: clientLead.phone,
+      nationality: clientLead.nationality,
+      curp: clientLead.curp,
+      country_of_origin: clientLead.country_of_origin,
+      rfc: clientLead.rfc,
+      occupation: clientLead.occupation,
+      civil_status: clientLead.civil_status,
+      lot_of_interest:clientLead.lot_of_interest,
+      municipality: clientLead.municipality,
+      country: clientLead.country,
+      state: clientLead.state,
+      address:  clientLead.address,
 
+    })
+  }, [dispatch, clientId]);
   const handleClickOpen = () => {
     setOpen(!open);
   };
@@ -426,8 +420,9 @@ export default function Leads() {
 
     setState({ ...state, [anchor]: open });
   };
-/*   React.useEffect(() => {
-  }, [dispatch]); */
+  React.useEffect(() => {
+    dispatch(AllLead());
+  }, [dispatch]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
