@@ -53,6 +53,8 @@ function App() {
           <Route path="leads" element={<Leads/>} />
 
           <Route path="leads/:clientId" element={<Leads/>} />
+          <Route path="leads/client/:clientId" element={<Leads/>} />
+
 
 
           <Route path="mi sitio" element={<RegisterPage />} />

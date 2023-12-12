@@ -5,7 +5,7 @@ import axios from 'axios'
 
 
 
-export const register = (payload) => {
+ export const register = (payload) => {
   return async (dispatch) => {
       const res = axios.post('https://grupo-production.up.railway.app/register', payload)
       const data = res.data
@@ -157,7 +157,7 @@ export const ClientLead = (clientId) => {
           })
       
       }
-      } 
+      }  
 
     
 
@@ -199,8 +199,8 @@ export const ClientLead = (clientId) => {
 
 
 
-/* 
-export const register = (payload) => {
+
+/*  export const register = (payload) => {
   return async (dispatch) => {
       const res = axios.post('http://localhost:3001/register', payload)
       const data = res.data
@@ -357,8 +357,8 @@ export const ClientLead = (clientId) => {
           })
       
       }
-      } */
-
+      } 
+ */
 
 
 

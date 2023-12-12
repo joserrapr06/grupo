@@ -1,5 +1,11 @@
 const { Leads } = require('../../db');
+const cloudinary = require('cloudinary').v2;
 
+cloudinary.config({
+  cloud_name: 'dz0lruj7k',
+  api_key: '128323134832632',
+  api_secret: '04JixT8UcmHYY-QfbwSTBzT-L7I'
+});
 
 module.exports = {
   UpdateClient: async (req, res) => {
@@ -19,13 +25,44 @@ module.exports = {
          state,
          municipality,
          address,
+         
     } = req.body;
 
     try {
+      
       const client = await Leads.findByPk(clientId);
       if (!client) {
         return res.status(404).json({ message: 'Cliente no encontrado' });
       }
+
+      let identify = '';
+      let proof = '';
+
+      const identifyFile = req.files && req.files['identify'] && req.files['identify'][0];
+
+      const proofFile = req.files && req.files['proof'] && req.files['proof'][0];
+
+ 
+      if (identifyFile) {
+        const cloudinaryUploadResult = await cloudinary.uploader.upload(identifyFile.path, {
+          resource_type: 'image',
+          quality: 'auto:low',
+          fetch_format: 'auto',
+        });
+        console.log('Imagen de identificación oficial subida:', cloudinaryUploadResult.secure_url);
+        identify = cloudinaryUploadResult.secure_url;
+      }
+
+      if (proofFile) {
+        const cloudinaryUploadResult = await cloudinary.uploader.upload(proofFile.path, {
+          resource_type: 'image',
+          quality: 'auto:low',
+          fetch_format: 'auto',
+        });
+        console.log('Imagen de comprobante de domicilio subida:', cloudinaryUploadResult.secure_url);
+        proof = cloudinaryUploadResult.secure_url;
+      }
+
 
       // Actualizar propiedades solo si se proporcionan en la solicitud
       if (name) client.name = name;
@@ -42,6 +79,9 @@ module.exports = {
       if (state) client.state = state;
       if (municipality) client.municipality = municipality;
       if (address) client.address = address;
+      if (identify) client.identify_oficial = identify;
+      if (proof) client.proof_of_address = proof;
+
 
 
 

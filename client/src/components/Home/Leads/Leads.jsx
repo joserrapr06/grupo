@@ -287,8 +287,9 @@ export default function Leads() {
   };
 
   const handleOpenDetails = () => {
+   
     setOpenDetails(true);
-  };
+  }; 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -381,26 +382,20 @@ export default function Leads() {
       </div>
     </div>
   );
-  React.useEffect(() => {
+  const obtenerCliente = React.useCallback(() => {
     dispatch(ClientLead(clientId));
-    setDataClient({
-      name: clientLead.name,
-      email:clientLead.email,
-      phone: clientLead.phone,
-      nationality: clientLead.nationality,
-      curp: clientLead.curp,
-      country_of_origin: clientLead.country_of_origin,
-      rfc: clientLead.rfc,
-      occupation: clientLead.occupation,
-      civil_status: clientLead.civil_status,
-      lot_of_interest:clientLead.lot_of_interest,
-      municipality: clientLead.municipality,
-      country: clientLead.country,
-      state: clientLead.state,
-      address:  clientLead.address,
-
-    })
+    
   }, [dispatch, clientId]);
+
+  // Llama a la función memoizada en el useEffect
+  React.useEffect(() => {
+    obtenerCliente();
+
+
+
+    // Aquí puedes realizar cualquier otra operación que desees realizar en el useEffect
+
+  }, [obtenerCliente]);
   const handleClickOpen = () => {
     setOpen(!open);
   };
@@ -840,7 +835,7 @@ export default function Leads() {
                     type="text"
                     name="name"
                     className="lead-input-detail"
-                    value={dataClient.name }
+                    value={clientLead.name  }
                     onChange={handleChange}
                   />
                 </div>

@@ -53,6 +53,15 @@ module.exports = (sequelize) => {
     address: {
       type: DataTypes.STRING
     },
+    identify_oficial: {
+      type: DataTypes.STRING
+    },
+
+    proof_of_address: {
+      type: DataTypes.STRING
+    },
+
+    
     
 
     
