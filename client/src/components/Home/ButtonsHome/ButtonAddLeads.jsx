@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import { addLead } from "../../../redux/action";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import MuiAlert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import Snackbar from "@mui/material/Snackbar";
@@ -13,6 +13,15 @@ import CardActions from "@mui/material/CardActions";
 import AddIcon from "@mui/icons-material/Add";
 import { Card, CardContent, Typography, useTheme } from "@mui/material";
 import { useDropzone } from "react-dropzone";
+
+
+
+const getBase64 = (img, callback) => {
+  const reader = new FileReader();
+  reader.addEventListener("load", () => callback(reader.result));
+  reader.readAsDataURL(img);
+};
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -31,10 +40,17 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 
 function ChildModal() {
+  const dispatch = useDispatch();
+
   const [open, setOpen] = React.useState(false);
   const theme = useTheme();
   const [identifyImage, setIdentifyImage] = React.useState(null);
   const [addressImage, setAddressImage] = React.useState(null);
+  const [addlead, setAddlead] = React.useState({
+    identify_oficial: "",
+    proof_of_address: "",
+  });
+  const [imagePreview, setImagePreview] = React.useState(null);
 
   const handleOpen = () => {
     setOpen(true);
@@ -69,7 +85,42 @@ function ChildModal() {
     cursor: "pointer",
   });
 
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("avatar", addlead.avatar);
+    formData.append("name", addlead.name);
+  
+
+    try {
+      dispatch(addLead(addlead));
+
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  
+ 
+  };
+
+  const handleImageChange = React.useCallback(
+    (e) => {
+      if (e.target.files.length > 0) {
+        const file = e.target.files[0];
+        getBase64(file, (imageUrl) => {
+          setImagePreview(imageUrl);
+          setAddlead({
+            ...addlead,
+            identify_oficial: file,
+          });
+        });
+      }
+    },
+    [addlead]
+  );
   return (
+    <>
+
     <React.Fragment>
       <ButtonMaterial
         sx={{
@@ -199,6 +250,9 @@ function ChildModal() {
         </Box>
       </Modal>
     </React.Fragment>
+      
+    </>
+
   );
 }
 export default function ButtonAddLeads() {
@@ -248,6 +302,14 @@ export default function ButtonAddLeads() {
       }, 1000);
   };
 
+
+  const handleChange = (e) => {
+    const {name, value} = e.target
+    setAddlead({
+      ...addlead,
+      [name]: value
+    })
+  }
   return (
     <div>
       <div onClick={() => handleOpen(true)}>
@@ -281,26 +343,24 @@ export default function ButtonAddLeads() {
                   <div className="input-container">
                     <input
                       type="text"
-                      id="nombre"
+                      id="name"
+                      name="name"
                       className="input-bottom-border"
                       value={addlead.name}
-                      onChange={(e) =>
-                        setAddlead({ ...addlead, name: e.target.value })
-                      }
+                      onChange= {handleChange}
                     />
                   </div>
                 </div>
                 <div className="input-label">
-                  <label htmlFor="nombre">EMAIL:</label>
+                  <label htmlFor="">EMAIL:</label>
                   <div className="input-container">
                     <input
                       type="email"
-                      id="nombre"
+                      name="email"
+                      id="email"
                       className="input-bottom-border"
                       value={addlead.email}
-                      onChange={(e) =>
-                        setAddlead({ ...addlead, email: e.target.value })
-                      }
+                      onChange= {handleChange}
                     />
                   </div>
                 </div>
@@ -309,12 +369,11 @@ export default function ButtonAddLeads() {
                   <div className="input-container">
                     <input
                       type="text"
-                      id="nombre"
+                      id="phone"
+                      name="phone"
                       className="input-addLead "
                       value={addlead.phone}
-                      onChange={(e) =>
-                        setAddlead({ ...addlead, phone: e.target.value })
-                      }
+                      onChange= {handleChange}
                     />
                   </div>
                 </div>

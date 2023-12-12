@@ -243,6 +243,7 @@ export default function Leads() {
   const { clientId } = useParams();
   const dispatch = useDispatch();
   const allLead = useSelector((state) => state.allLead);
+
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
@@ -289,6 +290,30 @@ export default function Leads() {
   const handleOpenDetails = () => {
     setOpenDetails(true);
   };
+
+
+  React.useEffect(() => {
+    dispatch(AllLead());
+    dispatch(ClientLead(clientId));
+
+    setDataClient({
+      name: clientLead.name,
+      email:clientLead.email,
+      phone: clientLead.phone,
+      nationality: clientLead.nationality,
+      curp: clientLead.curp,
+      country_of_origin: clientLead.country_of_origin,
+      rfc: clientLead.rfc,
+      occupation: clientLead.occupation,
+      civil_status: clientLead.civil_status,
+      lot_of_interest:clientLead.lot_of_interest,
+      municipality: clientLead.municipality,
+      country: clientLead.country,
+      state: clientLead.state,
+      address:  clientLead.address,
+
+    })
+  }, [dispatch, clientId]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -381,9 +406,7 @@ export default function Leads() {
       </div>
     </div>
   );
-  React.useEffect(() => {
-    dispatch(ClientLead(clientId));
-  }, [dispatch, clientId]);
+
   const handleClickOpen = () => {
     setOpen(!open);
   };
@@ -403,9 +426,8 @@ export default function Leads() {
 
     setState({ ...state, [anchor]: open });
   };
-  React.useEffect(() => {
-    dispatch(AllLead());
-  }, [dispatch]);
+/*   React.useEffect(() => {
+  }, [dispatch]); */
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -823,7 +845,7 @@ export default function Leads() {
                     type="text"
                     name="name"
                     className="lead-input-detail"
-                    value={dataClient.name || clientLead.name}
+                    value={dataClient.name }
                     onChange={handleChange}
                   />
                 </div>
@@ -833,7 +855,7 @@ export default function Leads() {
                     type="text"
                     name="nationality"
                     className="lead-input-detail"
-                    value={dataClient.nationality || clientLead.nationality}
+                    value={dataClient.nationality}
                     onChange={handleChange}
                   />
                 </div>
@@ -843,7 +865,7 @@ export default function Leads() {
                   name="curp"
                   type="text"
                    className="lead-input-detail"
-                    value={dataClient.curp || clientLead.curp}
+                    value={dataClient.curp}
                     onChange={handleChange}
                     />
                 </div>
@@ -853,7 +875,7 @@ export default function Leads() {
                    type="text"
                    name="rfc" 
                    className="lead-input-detail"
-                   value={dataClient.rfc || clientLead.rfc}
+                   value={dataClient.rfc }
                    onChange={handleChange}
                     />
                 </div>
@@ -863,7 +885,7 @@ export default function Leads() {
                    type="text"
                    name="civil_status"
                     className="lead-input-detail"
-                    value={dataClient.civil_status || clientLead.civil_status}
+                    value={dataClient.civil_status }
                     onChange={handleChange}
                      />
                 </div>
@@ -876,7 +898,7 @@ export default function Leads() {
                   type="text"
                   name="phone"
                    className="lead-input-detail"
-                   value={dataClient.phone || clientLead.phone}
+                   value={dataClient.phone }
                    onChange={handleChange}
                     />
                 </div>
@@ -886,7 +908,7 @@ export default function Leads() {
                   type="email"
                   name="email"
                    className="lead-input-detail"
-                   value={dataClient.email || clientLead.email}
+                   value={dataClient.email }
                    onChange={handleChange}
                     />
                 </div>
@@ -896,7 +918,7 @@ export default function Leads() {
                   type="text" 
                   name="country_of_origin" 
                   className="lead-input-detail" 
-                    value={dataClient.country_of_origin || clientLead.country_of_origin}
+                    value={dataClient.country_of_origin }
                    onChange={handleChange}
                   />
                 </div>
@@ -906,7 +928,7 @@ export default function Leads() {
                   type="text"
                   name="occupation" 
                   className="lead-input-detail" 
-                  value={dataClient.occupation || clientLead.occupation}
+                  value={dataClient.occupation }
                   onChange={handleChange}
                   />
                 </div>
@@ -916,7 +938,7 @@ export default function Leads() {
                    type="text"
                    name="lot_of_interest"
                     className="lead-input-detail" 
-                    value={dataClient.lot_of_interest || clientLead.lot_of_interest}
+                    value={dataClient.lot_of_interest }
                     onChange={handleChange}
                     />
                 </div>
